@@ -1,8 +1,10 @@
+from asyncio import subprocess
 import sys, os
 from tokenize import Number
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6 import QtGui, QtCore
+import subprocess
 
 import pathlib
 import tempfile
@@ -57,7 +59,21 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.setWindowIcon = windowIcon
 
+        # self.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_red.png")) Rot einblenden
+        self.ui.BTN_Verbinden.clicked.connect(self.Verbinden)
+        self.ui.BTN_Trennen.clicked.connect(self.Trennen)
+        self.ui.BTN_Einstellungen.clicked.connect(self.Einstellungen)
+
         self.show()
+
+    def Verbinden(self):
+        print("Verbinden")
+
+    def Trennen(self):
+        print("Trennen")
+
+    def Einstellungen(self):
+        print("Einstellungen")
     
 class ERROR_MSG(QDialog):
     def __init__(self):

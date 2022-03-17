@@ -3,4 +3,11 @@
     <file>data/Icon.png</file>
     <file>data/ERROR_ICON.png</file>
   </qresource>
+  <qresource prefix="Bilder">
+    <file>data/Hintergund.png</file>
+    <file>data/Status_red.png</file>
+    <file>data/Status_unknow.png</file>
+    <file>data/Status_green.png</file>
+    <file>data/Status_orange.png</file>
+  </qresource>
 </RCC>
