@@ -23,7 +23,7 @@ class Ui_ERROR_MSG(object):
     def setupUi(self, ERROR_MSG):
         if not ERROR_MSG.objectName():
             ERROR_MSG.setObjectName(u"ERROR_MSG")
-        ERROR_MSG.resize(400, 117)
+        ERROR_MSG.resize(524, 183)
         icon = QIcon()
         icon.addFile(u":/ICONS/data/ERROR_ICON.png", QSize(), QIcon.Normal, QIcon.Off)
         ERROR_MSG.setWindowIcon(icon)
@@ -463,11 +463,11 @@ class Ui_ERROR_MSG(object):
 "")
         self.ERRO_MSG = QLabel(ERROR_MSG)
         self.ERRO_MSG.setObjectName(u"ERRO_MSG")
-        self.ERRO_MSG.setGeometry(QRect(10, 0, 371, 81))
+        self.ERRO_MSG.setGeometry(QRect(10, 0, 501, 141))
         self.ERRO_MSG.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
         self.BTN_OK = QPushButton(ERROR_MSG)
         self.BTN_OK.setObjectName(u"BTN_OK")
-        self.BTN_OK.setGeometry(QRect(150, 80, 91, 31))
+        self.BTN_OK.setGeometry(QRect(210, 140, 91, 31))
         self.BTN_OK.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.retranslateUi(ERROR_MSG)

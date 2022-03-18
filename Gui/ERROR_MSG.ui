@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>117</height>
+    <width>524</width>
+    <height>183</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -450,8 +450,8 @@ QScrollBar::sub-page:vertical
     <rect>
      <x>10</x>
      <y>0</y>
-     <width>371</width>
-     <height>81</height>
+     <width>501</width>
+     <height>141</height>
     </rect>
    </property>
    <property name="text">
@@ -464,8 +464,8 @@ QScrollBar::sub-page:vertical
   <widget class="QPushButton" name="BTN_OK">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>80</y>
+     <x>210</x>
+     <y>140</y>
      <width>91</width>
      <height>31</height>
     </rect>

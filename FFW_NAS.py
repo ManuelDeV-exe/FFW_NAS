@@ -8,6 +8,7 @@ from PySide6 import QtGui, QtCore
 import win32api
 import win32gui
 import win32con
+import win32process
 import time
 
 import pathlib
@@ -226,7 +227,8 @@ def NetzwerkOrdner():
         MainWindow.ui.BTN_Verbinden.setDisabled(False)
 
 def getWindowID():
-    time.sleep(6)
+    MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_orange.png")) #Gelb
+    time.sleep(1.5)
     global window_IDs
     win32gui.EnumWindows( winEnumHandler, None )
     try:
@@ -234,6 +236,7 @@ def getWindowID():
         print(window_IDs)
     except:
         print("An exception occurred")
+        MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_red.png")) #GRÜN
 
     MainWindow.ui.BTN_Trennen.setDisabled(False)
     MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_green.png")) #GRÜN
@@ -254,11 +257,16 @@ def Verbinden():
     TH_WindowID.start()
 
     ERROR_MSG.setWindowTitle("Hinweis")
-    ERROR_MSG.ui.ERRO_MSG.setText("Bitte Bestätige mit OK wenn die Verbindung\naufgebaut wurde.\nFritzFernzugang bitt nur über Trennen Beenden.")
+    ERROR_MSG.ui.ERRO_MSG.setText("Bitte Bestätige mit OK wenn die Verbindung\naufgebaut wurde.\nFritzFernzugang bitte nur über Den Button \"Trennen\" Beenden.")
     ERROR_MSG.exec() # Warte auf bestätigung durch Nutzer
 
     MainWindow.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_green.png")) #GRÜN
-    MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_orange.png")) #Gelb
+
+    try:
+        win32gui.ShowWindow(window_IDs, win32con.SW_HIDE)
+        win32gui.SetForegroundWindow(window_IDs)
+    except:
+        print("Error")
 
     TH_NetzwerkOrdner.start()
         
@@ -268,11 +276,14 @@ def Trennen():
     except:
         print("Error")
 
-    win32gui.ShowWindow(window_IDs, win32con.SW_SHOW)
-    win32gui.SetForegroundWindow(window_IDs)
+    try:
+        win32gui.ShowWindow(window_IDs, win32con.SW_SHOW)
+        win32gui.SetForegroundWindow(window_IDs)
+    except:
+        print("Error")
 
     ERROR_MSG.setWindowTitle("Hinweis")
-    ERROR_MSG.ui.ERRO_MSG.setText("Bitte klicke im FritzFernzugang auf Abbauen.")
+    ERROR_MSG.ui.ERRO_MSG.setText("Bitte klicke im FritzFernzugang auf Abbau.\nJetzt kann das Programm \"FritzFernzugang\" beendet werden. ")
     ERROR_MSG.exec() # Warte auf bestätigung durch Nutzer
 
     MainWindow.ui.BTN_Trennen.setDisabled(True)
