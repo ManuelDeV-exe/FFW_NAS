@@ -36,9 +36,9 @@ global NeusteVersion
 NeusteVersion = ""
 pfad_updatepfad = str(pathlib.Path(__file__).parents[0]) + "/FFW_NAS_CheckforUpdate.json"
 
-TempPath = str(pathlib.Path(tempfile.gettempdir() + "/Materialbestelltung_temp").absolute())
-TempPathZIPFILE = str(pathlib.Path(tempfile.gettempdir() + "/Materialbestelltung_temp/Update_FFW_NAS_Converter.zip").absolute())
-TempPathEXE = str(pathlib.Path(tempfile.gettempdir() + "/Materialbestelltung_temp/Update_FFW_NAS_Converter.exe").absolute())
+TempPath = str(pathlib.Path(tempfile.gettempdir() + "/FFW_NAS").absolute())
+TempPathZIPFILE = str(pathlib.Path(tempfile.gettempdir() + "/FFW_NAS/Update_FFW_NAS_Converter.zip").absolute())
+TempPathEXE = str(pathlib.Path(tempfile.gettempdir() + "/FFW_NAS/Update_FFW_NAS_Converter.exe").absolute())
 
 from ui_UpdateChecker_MainWindow import Ui_UpdateChecker
 from ui_UpdateChecker_Fortschritt import Ui_Fortschritt
