@@ -1,10 +1,14 @@
 from asyncio import subprocess
+from multiprocessing.connection import wait
 import sys, os
 from tokenize import Number
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6 import QtGui, QtCore
-import subprocess
+import win32api
+import win32gui
+import win32con
+import time
 
 import pathlib
 import tempfile
@@ -19,6 +23,8 @@ from ui_ERROR_MSG import Ui_ERROR_MSG
 
 # Updater
 
+window_IDs = 0
+
 global AktulleVersion
 AktulleVersion = ""
 JsonURL = 'https://3ddruck-mb.de/UpdateChecker/FFW_NAS_CheckforUpdate.json'
@@ -30,6 +36,7 @@ global NeusteVersion
 NeusteVersion = ""
 pfad_updatepfad = str(pathlib.Path(__file__).parents[0]) + "/FFW_NAS_CheckforUpdate.json"
 
+TempPath = str(pathlib.Path(tempfile.gettempdir() + "/Materialbestelltung_temp").absolute())
 TempPathZIPFILE = str(pathlib.Path(tempfile.gettempdir() + "/Materialbestelltung_temp/Update_FFW_NAS_Converter.zip").absolute())
 TempPathEXE = str(pathlib.Path(tempfile.gettempdir() + "/Materialbestelltung_temp/Update_FFW_NAS_Converter.exe").absolute())
 
@@ -192,8 +199,23 @@ def CheckVersion_forUpdate():
     else:
         UpdateChecker.show() # main window öffnen
 
+# Updatechecker
+
+if os.path.exists(TempPath) == False:
+    os.makedirs(TempPath)
+
 # Funktionen
     
+def winEnumHandler( hwnd, ctx ):
+    global window_IDs
+    if win32gui.IsWindowEnabled( hwnd ):
+        if "FRITZ!Fernzugang" in win32gui.GetWindowText(hwnd):
+            print(hex(hwnd), win32gui.GetWindowText(hwnd))
+            print(hwnd) 
+            window_IDs = hwnd
+        print(hex(hwnd), win32gui.GetWindowText( hwnd ))
+        # print(hex(hwnd))
+
 def FRITZVPN():
     os.system("FRITZVPN.exe")
 
@@ -202,22 +224,33 @@ def NetzwerkOrdner():
         shutil.copytree(Netzwerkordner, Network_Shortcuts)
     except:
         MainWindow.ui.BTN_Verbinden.setDisabled(False)
-        MainWindow.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_unknow.png")) #unknow
-        MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_red.png")) #ROT
-        MainWindow.ui.BTN_Trennen.setDisabled(True)
 
-    MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_green.png")) #GRÜN
+def getWindowID():
+    time.sleep(6)
+    global window_IDs
+    win32gui.EnumWindows( winEnumHandler, None )
+    try:
+        window_IDs = window_IDs
+        print(window_IDs)
+    except:
+        print("An exception occurred")
+
+    print("test")
+
 
 def Verbinden():
     # Threas definieren
     TH_FRITZVPN = Thread(target=FRITZVPN)
     TH_NetzwerkOrdner = Thread(target=NetzwerkOrdner)
+    TH_WindowID = Thread(target=getWindowID)
 
     # restlicher Code
     MainWindow.ui.BTN_Trennen.setDisabled(False)
     MainWindow.ui.BTN_Verbinden.setDisabled(True)
     TH_FRITZVPN.start()
     MainWindow.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_orange.png")) #Gelb
+
+    TH_WindowID.start()
 
     ERROR_MSG.setWindowTitle("Hinweis")
     ERROR_MSG.ui.ERRO_MSG.setText("Bitte Bestätige mit OK wenn die Verbindung\naufgebaut wurde.\nFritzFernzugang bitt nur über Trennen Beenden.")
@@ -230,13 +263,15 @@ def Verbinden():
 
     TH_NetzwerkOrdner.start()
         
-
 def Trennen():
     try:
         shutil.rmtree(Network_Shortcuts)
     except:
         print("Error")
-    
+
+    win32gui.ShowWindow(window_IDs, win32con.SW_SHOW)
+    win32gui.SetForegroundWindow(window_IDs)
+
     ERROR_MSG.setWindowTitle("Hinweis")
     ERROR_MSG.ui.ERRO_MSG.setText("Bitte klicke im FritzFernzugang auf Abbauen.")
     ERROR_MSG.exec() # Warte auf bestätigung durch Nutzer
