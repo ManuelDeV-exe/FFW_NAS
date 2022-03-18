@@ -217,7 +217,7 @@ def winEnumHandler( hwnd, ctx ):
         # print(hex(hwnd))
 
 def FRITZVPN():
-    os.system("FRITZVPN.exe")
+    os.system("powershell.exe FRITZVPN.exe")
 
 def NetzwerkOrdner():
     try:
@@ -235,7 +235,8 @@ def getWindowID():
     except:
         print("An exception occurred")
 
-    print("test")
+    MainWindow.ui.BTN_Trennen.setDisabled(False)
+    MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_green.png")) #GRÜN
 
 
 def Verbinden():
@@ -258,8 +259,6 @@ def Verbinden():
 
     MainWindow.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_green.png")) #GRÜN
     MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_orange.png")) #Gelb
-
-    MainWindow.ui.BTN_Trennen.setDisabled(False)
 
     TH_NetzwerkOrdner.start()
         
