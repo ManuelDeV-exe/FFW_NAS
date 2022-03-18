@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>250</width>
-    <height>300</height>
+    <height>270</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>250</width>
-    <height>300</height>
+    <height>270</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>250</width>
-    <height>300</height>
+    <height>270</height>
    </size>
   </property>
   <property name="font">
@@ -73,6 +73,7 @@ QLabel
 	background-color: transparent;
 	color: rgb(255, 255, 255);
 	font-size: 13px;
+	font: 13pt &quot;osifont&quot;;
 
 }
 
@@ -467,14 +468,18 @@ QScrollBar::sub-page:vertical
     <property name="geometry">
      <rect>
       <x>95</x>
-      <y>275</y>
+      <y>240</y>
       <width>60</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>-1</pointsize>
+      <family>osifont</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -605,34 +610,6 @@ QPushButton::pressed
     </property>
     <property name="text">
      <string>Trennen</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="BTN_Einstellungen">
-    <property name="geometry">
-     <rect>
-      <x>45</x>
-      <y>230</y>
-      <width>160</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>osifont</family>
-      <pointsize>13</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 13pt &quot;osifont&quot;;</string>
-    </property>
-    <property name="text">
-     <string>Einstellungen</string>
     </property>
    </widget>
   </widget>

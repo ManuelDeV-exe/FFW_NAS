@@ -11,7 +11,7 @@ import tempfile
 import json
 import shutil
 import requests
-import threading
+from threading import Thread
 import psutil
 
 from ui_FFW_NAS import Ui_MainWindow
@@ -25,11 +25,11 @@ JsonURL = 'https://3ddruck-mb.de/UpdateChecker/FFW_NAS_CheckforUpdate.json'
 headersURL = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 paramURL = dict()
 DownloadUpdateFileURL = 'https://3ddruck-mb.de/UpdateChecker/Update_FFW_NAS_Converter.zip'
+
 global NeusteVersion
 NeusteVersion = ""
 pfad_updatepfad = str(pathlib.Path(__file__).parents[0]) + "/FFW_NAS_CheckforUpdate.json"
 
-TempPath = str(pathlib.Path(tempfile.gettempdir() + "/Materialbestelltung_temp").absolute())
 TempPathZIPFILE = str(pathlib.Path(tempfile.gettempdir() + "/Materialbestelltung_temp/Update_FFW_NAS_Converter.zip").absolute())
 TempPathEXE = str(pathlib.Path(tempfile.gettempdir() + "/Materialbestelltung_temp/Update_FFW_NAS_Converter.exe").absolute())
 
@@ -43,6 +43,9 @@ homePath = os.path.dirname(sys.executable)
 homePath = os.path.dirname(__file__) # Ansonsten wird kein Icon angezeigt
 logo_Pfad = os.path.join(homePath, 'data\\Icon.png')
 logo_ERROR_Pfad = os.path.join(homePath, 'data\\ERROR_ICON.png')
+
+Netzwerkordner = os.path.join(homePath, 'Netzwerkordner\\FFW-Prosdorf')
+Network_Shortcuts = os.path.expandvars(r'%APPDATA%\Microsoft\Windows\Network Shortcuts\FFW-Prosdorf')
 
 global filepath
 global outputpath
@@ -59,18 +62,12 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.setWindowIcon = windowIcon
 
-        # self.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_red.png")) Rot einblenden
-        self.ui.BTN_Verbinden.clicked.connect(self.Verbinden)
-        self.ui.BTN_Trennen.clicked.connect(self.Trennen)
-        self.ui.BTN_Einstellungen.clicked.connect(self.Einstellungen)
+        self.ui.BTN_Trennen.setDisabled(True)
+
+        self.ui.BTN_Verbinden.clicked.connect(Verbinden)
+        self.ui.BTN_Trennen.clicked.connect(Trennen)
 
         self.show()
-
-    def Verbinden(self):
-        print("Verbinden")
-
-    def Trennen(self):
-        print("Trennen")
 
     def Einstellungen(self):
         print("Einstellungen")
@@ -140,9 +137,9 @@ class Fortschritt_UpdateChecker(QMainWindow):
         
         self.close()
 
-class Thread_UpdateChecker(threading.Thread):
+class Thread_UpdateChecker(Thread):
     def __init__(self, iD, name, make):
-        threading.Thread.__init__(self)
+        Thread.__init__(self)
         self.iD = iD
         self.name = name
         self.make = make
@@ -195,13 +192,59 @@ def CheckVersion_forUpdate():
     else:
         UpdateChecker.show() # main window öffnen
 
-# Updatechecker
-
-if os.path.exists(TempPath) == False:
-    os.makedirs(TempPath)
-
 # Funktionen
+    
+def FRITZVPN():
+    os.system("FRITZVPN.exe")
 
+def NetzwerkOrdner():
+    try:
+        shutil.copytree(Netzwerkordner, Network_Shortcuts)
+    except:
+        MainWindow.ui.BTN_Verbinden.setDisabled(False)
+        MainWindow.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_unknow.png")) #unknow
+        MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_red.png")) #ROT
+        MainWindow.ui.BTN_Trennen.setDisabled(True)
+
+    MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_green.png")) #GRÜN
+
+def Verbinden():
+    # Threas definieren
+    TH_FRITZVPN = Thread(target=FRITZVPN)
+    TH_NetzwerkOrdner = Thread(target=NetzwerkOrdner)
+
+    # restlicher Code
+    MainWindow.ui.BTN_Trennen.setDisabled(False)
+    MainWindow.ui.BTN_Verbinden.setDisabled(True)
+    TH_FRITZVPN.start()
+    MainWindow.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_orange.png")) #Gelb
+
+    ERROR_MSG.setWindowTitle("Hinweis")
+    ERROR_MSG.ui.ERRO_MSG.setText("Bitte Bestätige mit OK wenn die Verbindung\naufgebaut wurde.\nFritzFernzugang bitt nur über Trennen Beenden.")
+    ERROR_MSG.exec() # Warte auf bestätigung durch Nutzer
+
+    MainWindow.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_green.png")) #GRÜN
+    MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_orange.png")) #Gelb
+
+    MainWindow.ui.BTN_Trennen.setDisabled(False)
+
+    TH_NetzwerkOrdner.start()
+        
+
+def Trennen():
+    try:
+        shutil.rmtree(Network_Shortcuts)
+    except:
+        print("Error")
+    
+    ERROR_MSG.setWindowTitle("Hinweis")
+    ERROR_MSG.ui.ERRO_MSG.setText("Bitte klicke im FritzFernzugang auf Abbauen.")
+    ERROR_MSG.exec() # Warte auf bestätigung durch Nutzer
+
+    MainWindow.ui.BTN_Trennen.setDisabled(True)
+    MainWindow.ui.BTN_Verbinden.setDisabled(False)
+    MainWindow.ui.IMG_VPNStatus.setPixmap(QPixmap(u"data/Status_unknow.png")) #unknow
+    MainWindow.ui.IMG_Einstazbereit.setPixmap(QPixmap(u"data/Status_unknow.png")) #unknow
 
 # Programm Code
 

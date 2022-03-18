@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'FFW_NAS.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.2.2
+## Created by: Qt User Interface Compiler version 6.2.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,9 +23,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(250, 300)
-        MainWindow.setMinimumSize(QSize(250, 300))
-        MainWindow.setMaximumSize(QSize(250, 300))
+        MainWindow.resize(250, 270)
+        MainWindow.setMinimumSize(QSize(250, 270))
+        MainWindow.setMaximumSize(QSize(250, 270))
         font = QFont()
         font.setBold(True)
         MainWindow.setFont(font)
@@ -70,6 +70,7 @@ class Ui_MainWindow(object):
 "	background-color: transparent;\n"
 "	color: rgb(255, 255, 255);\n"
 "	font-size: 13px;\n"
+"	font: 13pt \"osifont\";\n"
 "\n"
 "}\n"
 "\n"
@@ -90,8 +91,8 @@ class Ui_MainWindow(object):
 "\n"
 "QPushButton::pressed\n"
 "{\n"
-"	background-color: qlineargradient(spread:pad, x1:0, y1:0.511, x2:1, y2:0.511,"
-                        " stop:0 rgba(0, 207, 179, 255),stop:1 rgba(70, 255, 230, 255));\n"
+"	background-color: qlineargradient(spread:pad, x1"
+                        ":0, y1:0.511, x2:1, y2:0.511, stop:0 rgba(0, 207, 179, 255),stop:1 rgba(70, 255, 230, 255));\n"
 "\n"
 "}\n"
 "\n"
@@ -144,9 +145,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "\n"
-"QCheckBox::indicator:disabled\n"
-""
-                        "{\n"
+"QChec"
+                        "kBox::indicator:disabled\n"
+"{\n"
 "	background-color: #656565;\n"
 "	color: #656565;\n"
 "    border: 1px solid #656565;\n"
@@ -201,10 +202,10 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "QListView::item:!selected\n"
-"{\n"
+""
+                        "{\n"
 "	color:white;\n"
-"	bac"
-                        "kground-color: transparent;\n"
+"	background-color: transparent;\n"
 "	border: none;\n"
 "	padding-left : 10px;\n"
 "\n"
@@ -266,10 +267,10 @@ class Ui_MainWindow(object):
 "QTreeView::branch:has-children:!has-siblings:closed,\n"
 "QTreeView::branch:closed:has-children:has-siblings \n"
 "{\n"
-"	image: url(://tree-closed.png);\n"
+"	image: url(://"
+                        "tree-closed.png);\n"
 "\n"
-"}"
-                        "\n"
+"}\n"
 "\n"
 "QTreeView::branch:open:has-children:!has-siblings,\n"
 "QTreeView::branch:open:has-children:has-siblings  \n"
@@ -327,8 +328,8 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "\n"
-"QTableCornerButton::section"
-                        "\n"
+""
+                        "QTableCornerButton::section\n"
 "{\n"
 "	background-color: #343a49;\n"
 "    color: #fff;\n"
@@ -389,9 +390,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "\n"
-"QHeaderView::section::horizontal::first,\n"
-"QHeaderView::s"
-                        "ection::horizontal::only-one\n"
+"QHeaderView::section::horizontal"
+                        "::first,\n"
+"QHeaderView::section::horizontal::only-one\n"
 "{\n"
 "    border-left: 1px solid #353635;\n"
 "\n"
@@ -449,11 +450,11 @@ class Ui_MainWindow(object):
 "{\n"
 "    border: none;\n"
 "	min-height: 100px;\n"
-"    background-color: #56576c;\n"
+"    background-"
+                        "color: #56576c;\n"
 "\n"
 "}\n"
-""
-                        "\n"
+"\n"
 "\n"
 "QScrollBar::add-line:vertical, \n"
 "QScrollBar::sub-line:vertical,\n"
@@ -469,8 +470,12 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.LBL_Version = QLabel(self.centralwidget)
         self.LBL_Version.setObjectName(u"LBL_Version")
-        self.LBL_Version.setGeometry(QRect(95, 275, 60, 20))
+        self.LBL_Version.setGeometry(QRect(95, 240, 60, 20))
         font1 = QFont()
+        font1.setFamilies([u"osifont"])
+        font1.setPointSize(13)
+        font1.setBold(False)
+        font1.setItalic(False)
         self.LBL_Version.setFont(font1)
         self.LBL_Version.setAlignment(Qt.AlignCenter)
         self.IMG_Statusanzeige = QLabel(self.centralwidget)
@@ -489,18 +494,13 @@ class Ui_MainWindow(object):
         self.BTN_Verbinden = QPushButton(self.centralwidget)
         self.BTN_Verbinden.setObjectName(u"BTN_Verbinden")
         self.BTN_Verbinden.setGeometry(QRect(45, 130, 160, 41))
-        font2 = QFont()
-        font2.setFamilies([u"osifont"])
-        font2.setPointSize(13)
-        font2.setBold(False)
-        font2.setItalic(False)
-        self.BTN_Verbinden.setFont(font2)
+        self.BTN_Verbinden.setFont(font1)
         self.BTN_Verbinden.setCursor(QCursor(Qt.PointingHandCursor))
         self.BTN_Verbinden.setStyleSheet(u"font: 13pt \"osifont\";")
         self.BTN_Trennen = QPushButton(self.centralwidget)
         self.BTN_Trennen.setObjectName(u"BTN_Trennen")
         self.BTN_Trennen.setGeometry(QRect(45, 180, 160, 41))
-        self.BTN_Trennen.setFont(font2)
+        self.BTN_Trennen.setFont(font1)
         self.BTN_Trennen.setCursor(QCursor(Qt.PointingHandCursor))
         self.BTN_Trennen.setStyleSheet(u"/*-----QPushButton-----*/\n"
 "QPushButton\n"
@@ -519,12 +519,6 @@ class Ui_MainWindow(object):
 "	\n"
 "	background-color: rgb(255, 191, 0);\n"
 "}")
-        self.BTN_Einstellungen = QPushButton(self.centralwidget)
-        self.BTN_Einstellungen.setObjectName(u"BTN_Einstellungen")
-        self.BTN_Einstellungen.setGeometry(QRect(45, 230, 160, 41))
-        self.BTN_Einstellungen.setFont(font2)
-        self.BTN_Einstellungen.setCursor(QCursor(Qt.PointingHandCursor))
-        self.BTN_Einstellungen.setStyleSheet(u"font: 13pt \"osifont\";")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -540,6 +534,5 @@ class Ui_MainWindow(object):
         self.IMG_Einstazbereit.setText("")
         self.BTN_Verbinden.setText(QCoreApplication.translate("MainWindow", u"Verbinden", None))
         self.BTN_Trennen.setText(QCoreApplication.translate("MainWindow", u"Trennen", None))
-        self.BTN_Einstellungen.setText(QCoreApplication.translate("MainWindow", u"Einstellungen", None))
     # retranslateUi
 
